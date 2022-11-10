@@ -1,13 +1,12 @@
 var jwt = require('jsonwebtoken');
 const jsonDatos = require("../users.json")
-const SECRET = 'taas'
+const SECRET = process.env.JSON_SECRET_KEY
 
-function checkToken(token){
+function checkToken(token, uddid){
 
     const decode = jwt.verify(token, SECRET)
     if(!decode) return false
-    /* console.log(body)
-    let udidBody
+    /* let udidBody
     if(body.desiredCapabilities.platformName === 'iOS'){
       udidBody = body.desiredCapabilities['appium:udid']
       console.log('ios udid: ' + udidBody)
@@ -24,15 +23,14 @@ function checkToken(token){
         return element.name === decode.user
     })
 
-    let acceder = [];
-
     console.log(userFound)
+    console.log(uddid)
 
     if(userFound.length > 0){
-      return userFound[0].udid.some(r => decode.mobiles.includes(r))
+      return userFound[0].udid.includes(uddid)
     }
 
-    return acceder.length > 0 ? true : false;
+    return false;
 }
 
 exports.checkToken = checkToken

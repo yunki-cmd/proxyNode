@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require("morgan");
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, responseInterceptor } = require('http-proxy-middleware');
 const cors = require('cors')
 require('dotenv').config()
 const params = require("./middlewares/readParams")
@@ -23,13 +23,21 @@ app.get('/info', (req, res, next) => {
     res.send('This is a proxy service which proxies to Billing and Account APIs.');
  });
 
+ app.use('/taas/appiumInspector/session/:idSession',params.readSession, createProxyMiddleware({
+    target: API_SERVICE_URL,
+    changeOrigin: true,
+    pathRewrite: {
+        [`^/taas/appiumInspector`]: '',
+    }
+ }));
+
  // Proxy endpoints
  app.use('/taas/appiumInspector',params.readeParams, createProxyMiddleware({
     target: API_SERVICE_URL,
     changeOrigin: true,
     pathRewrite: {
         [`^/taas/appiumInspector`]: '',
-    },
+    }
  }));
 
 
