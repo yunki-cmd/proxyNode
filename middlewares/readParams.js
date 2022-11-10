@@ -5,7 +5,7 @@ function readeParams(req, resp, next) {
     let token = req.get("token");
     let uddid = req.get("idmobile");
     if(!token){
-        resp.sendStatus(407)
+        return resp.sendStatus(407)
     }
     let nextMiddle = checkToken.checkToken(token,uddid)
     console.log('midddd: ' + nextMiddle)
@@ -19,11 +19,11 @@ function readSession(req, resp, next) {
     let token = req.get("token");
     let uddid = req.get("idmobile");
     if(!token){
-        resp.sendStatus(407)
+       return resp.sendStatus(407)
     }
     let nextMiddle = checkToken.checkToken(token,uddid)
     console.log('readSession uddid: ' + nextMiddle)
-    if(!nextMiddle){  resp.sendStatus(401)}
+    if(!nextMiddle){  return resp.sendStatus(401)}
 
     let idSession = req.params.idSession
 
