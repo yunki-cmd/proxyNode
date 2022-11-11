@@ -35,5 +35,25 @@ function readSession(req, resp, next) {
     next()
 }
 
+function readGrid(req, resp, next) {
+    console.log(req.method)
+    if(req.method ==='DELETE'){
+        console.log(req)
+    }
+    if (req.body) {
+        if(req.body.hasOwnProperty('desiredCapabilities')) {
+            console.log(req.body)
+            const accessKey = req.body.desiredCapabilities.accessKey
+            console.log(accessKey)
+            delete req.body.desiredCapabilities.accessKey
+            delete req.body.capabilities.firstMatch[0].accessKey
+            console.log(req.body)
+            console.log(req.body.capabilities.firstMatch)
+        }
+    }
+    next()
+}
+
 exports.readeParams = readeParams
 exports.readSession = readSession
+exports.readGrid = readGrid
